@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
         <meta
           http-equiv="Content-Security-Policy"
@@ -11,121 +12,74 @@
           http-equiv="X-Content-Security-Policy"
           content="default-src 'self'; script-src 'self'"
         />
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'"> -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self';">
         <link href="./output.css" rel="stylesheet">
         <title>Work PDF!</title>
+        <script type="module" src="./app.js"></script>
       </head>
       <body>
 
         <section id="nav">
           <div class="navbar bg-base-100">
             <div class="flex-1">
-              <a class="btn btn-ghost text-xl">IPDF</a>
+              <a href="/" class="btn btn-ghost text-xl" data-navigo>IPDF</a>
             </div>
             
             <div class="dropdown dropdown-end">
               <div tabindex="0" role="button" class="btn m-1 btn btn-square btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg></div>
               <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Split</a></li>
-                <li><a>Merge</a></li>
-                <li><a>Remove</a></li>
+                <!-- <li><a href="../src/views/split.html">Split</a></li>
+                <li><a href="../src/views/merge.html">Merge</a></li> -->
+                <!-- <li><a href="../src/views/remove.html">Remove</a></li> -->
+                <li><a href="/split">Split</a></li>
+                <li><a href="/merge">Merge</a></li>
+                <li><a href="/remove">Remove</a></li>
               </ul>
             </div>
           </div>
         </section>
           
-
-        <section id="home" >
-          <div class="hero min-h-max bg-base-200">
-            <div class="hero-content text-center">
-              <div class="max-w-md">
-                <h1 class="text-5xl font-bold">Work with PDFs in one place</h1>
-                <p class="py-6">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
-                <button class="btn btn-primary">Get Started</button>
+        <main id="main">
+          <!-- <section id="home" >
+            <div class="hero min-h-max bg-base-200">
+              <div class="hero-content text-center">
+                <div class="max-w-md">
+                  <h1 class="text-5xl font-bold">Work with PDFs in one place</h1>
+                  <p class="py-6">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
+                  <button class="btn btn-primary">Get Started</button>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div class="grid grid-rows-e grid-flow-col gap-4 place-content-center mt-6">
-        <div class="card w-72 bg-base-100 shadow-xl btn-ghost">
-          <div class="card-body">
-            <figure  class="w-10 object-left"><img src="../images/merge.png" alt="merge" /></figure>
-            <h2 class="card-title">Merge!</h2>
-            <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
-          </div>
-        </div>
-        <div class="card w-72 bg-base-100 shadow-xl btn-ghost">
-          <div class="card-body">
-            <figure class="w-10 object-left"><img  src="../images/file.png" alt="Shoes" /></figure>
-            <h2 class="card-title">Split!</h2>
-            <p>Separate one page or a whole set for easy conversion into independent PDF files</p>
-          </div>
-        </div>
-
-
-       
-            <div class="card w-72 bg-base-100 shadow-xl btn-ghost">
-              <div class="card-body">
-                <figure class="w-14 object-left"><img  src="../images/remove-file.png" alt="remove" /></figure>
-                <h2 class="card-title">Remove!</h2>
-                <p>Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
+            
+            <div class="grid grid-rows-e grid-flow-col gap-4 place-content-center mt-6">
+            
+              <a  href="../src/views/merge.html" class="card w-72 bg-base-100 shadow-xl btn-ghost">
+                <div class="card-body">
+                  <figure  class="w-10 object-left"><img src="../images/merge.png" alt="merge" /></figure>
+                  <h2 class="card-title">Merge!</h2>
+                  <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
+                </div>
+              </a>
+            
+              <a href="../src/views/split.html" class="card w-72 bg-base-100 shadow-xl btn-ghost">
+                <div class="card-body">
+                  <figure class="w-10 object-left"><img  src="../images/file.png" alt="Split" /></figure>
+                  <h2 class="card-title">Split!</h2>
+                  <p>Separate one page or a whole set for easy conversion into independent PDF files</p>
+                </div>
+              </a>
+            
+              <a href="../src/views/remove.html" class="card w-72 bg-base-100 shadow-xl btn-ghost">
+                <div class="card-body">
+                  <figure class="w-14 object-left"><img  src="../images/remove-file.png" alt="remove" /></figure>
+                  <h2 class="card-title">Remove!</h2>
+                  <p>Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
+                </div>
               </div>
-            </div>
-
-          </div>
-        </section>
-<!-- ******************************* -->
-        <section id="merge" class="max-w-full justify-center">
-          <div class="place-content-center text-center mt-6 ">
-            <h1 class="text-5xl font-bold">Merge PDF files</h1>
-            <p class="py-6">Combine PDFs in the order you want with the easiest PDF merger available.</p>
-            <input type="file" class="file-input w-full max-w-xs file-input-primary" />
-          </div>
-
-          <div class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center">
-            <div class="card w-32 bg-base-300 shadow-xl">
-              <figure class="px-5 pt-5">
-                <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" />
-              </figure>
-              <div class="card-body items-center text-center m-0 p-1.5">
-                <p class="text-xs">Cv-Deivid-Iliev.pdf</p>
-              </div>
-            </div>
-   
-            <div class="card w-32 bg-base-300 shadow-xl">
-              <figure class="px-5 pt-5">
-                <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" />
-              </figure>
-              <div class="card-body items-center text-center m-0 p-1.5">
-                <p class="text-xs">Cv-Deivid-Iliev.pdf</p>
-              </div>
-            </div>
-    
-          </div>
-
-
-          <div class=" flex w-full justify-center">
-            <button class="btn btn-error">Merge</button>
-          </div>
-
-        </section>
-<!-- ******************************* -->
-        <section id="split">
-          <div class="place-content-center text-center mt-6">
-            <h1 class="text-5xl font-bold">Split PDF file</h1>
-            <p class="py-6">Separate one page or a whole set for easy conversion into independent PDF files.</p>
-            <input type="file" class="file-input w-full max-w-xs file-input-primary" />
-          </div>
-        </section>
-
-<!-- ******************************* -->
-        
-        <section id="remove">
-          <div class="place-content-center text-center mt-6">
-            <h1 class="text-5xl font-bold">Remove PDF pages</h1>
-            <p class="py-6">Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
-            <input type="file" class="file-input w-full max-w-xs file-input-primary" />
-          </div>
-        </section>
-
+            
+            </a>
+          </section> -->
+      </main>
       </body>
 </html>
