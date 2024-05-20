@@ -3,7 +3,7 @@ import { html } from "../lib.js";
 // import {mergePng} from '../../images/merge.png'
 // import {splitPng} from '../../images/file.png'
 // import {removePng} from '../../images/remove-file.png'
-
+const mergePng = '/images/merge.png';
 const homeTemplate = () => html `
 <section id="home" >
 <div class="hero min-h-max bg-base-200">
@@ -20,7 +20,7 @@ const homeTemplate = () => html `
 
   <a href="/merge" class="card w-72 bg-base-100 shadow-xl btn-ghost">
     <div class="card-body">
-      <figure  class="w-10 object-left"><img src="./images/file.png alt="merge" /></figure>
+      <figure  class="w-10 object-left"><img src="./Electron Pdf Edditor/images/merge.png" alt="merge" /></figure>
       <h2 class="card-title">Merge!</h2>
       <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
     </div>
@@ -28,7 +28,7 @@ const homeTemplate = () => html `
 
   <a href="/split" class="card w-72 bg-base-100 shadow-xl btn-ghost">
     <div class="card-body">
-      <figure class="w-10 object-left"><img  src="./images/file.png alt="Split" /></figure>
+      <figure class="w-10 object-left"><img  src="./Electron Pdf Edditor/images/file.png" alt="Split" /></figure>
       <h2 class="card-title">Split!</h2>
       <p>Separate one page or a whole set for easy conversion into independent PDF files</p>
     </div>
@@ -36,7 +36,7 @@ const homeTemplate = () => html `
 
   <a href="/remove" class="card w-72 bg-base-100 shadow-xl btn-ghost">
     <div class="card-body">
-      <figure class="w-14 object-left"><img  src="./images/file.png" alt="remove" /></figure>
+      <figure class="w-14 object-left"><img  src="./Electron Pdf Edditor/images/remove-file.png" alt="remove" /></figure>
       <h2 class="card-title">Remove!</h2>
       <p>Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
     </div>

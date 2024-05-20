@@ -14,6 +14,7 @@ page('/remove', removeView);
 
 console.log('page.js Started')
 page.start();
+page.redirect('/');
 
 function decorateContext(ctx, next){
     ctx.render = renderMain;

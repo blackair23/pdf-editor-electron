@@ -12,7 +12,7 @@ const removeTemplate = () => html `
   <p class="py-6">Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
   <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" />
 </div>
-<div id="card-holder" class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center">
+<div id="card-holder" class="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
       <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
@@ -44,15 +44,14 @@ const handleFileSelection = async () => {
 };
 
 const cardTemplate = (index) => html `
-    <div  class="card w-32 bg-base-300 shadow-xl">
+    <div  class="place-content-center justify-center card w-32 bg-base-300 shadow-xl">
       <figure class="px-5 pt-5">
         <!-- <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" /> -->
-        
+          <div class="card-body items-center text-center">
+            <p class="text-sm">${index+1}</p>
+        </div>
       </figure>
-      <div class="card-body items-center text-center">
-        <p class="text-xs">${index}</p>
-      </div>
-      <button @click=${() => handlePageIndex(index)} class="btn btn-primary ${selectedCardIndices.includes(index) ? 'btn-outline' : ''}"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+      <button id=${index} @click=${() => handlePageIndex(index)} class="btn btn-primary ${selectedCardIndices.includes(index) ? 'btn-outline' : ''}"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
     </div>
 `;
 
@@ -94,17 +93,24 @@ const handleRemove = async () => {
 }
 
 const handlePageIndex = (index) => {
+
+  const btn = document.getElementById(index);
+
   console.log('from function i-> ',index)
   const cardIndex = selectedCardIndices.indexOf(index); // Check if index already exists
   if (cardIndex === -1) {
     // Add index if not already selected
     selectedCardIndices.push(index);
+    btn.classList = 'btn btn-neutral'
   } else {
     // Remove index if already selected (toggling effect)
     selectedCardIndices.splice(cardIndex, 1);
+    btn.classList = 'btn btn-primary'
   }
   console.log(selectedCardIndices);
   
+  
+
 };
 export function removeView(ctx) {
     ctx.render(removeTemplate());

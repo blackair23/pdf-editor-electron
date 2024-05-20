@@ -31,6 +31,7 @@ function createWindow () {
   const win = new BrowserWindow({
     width: 1000,
     height: 700,
+    icon:'./images/pdf.png',
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
@@ -41,7 +42,7 @@ function createWindow () {
     win.show();
     // Set the menu to null after the window is ready to show
     win.setMenu(null);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   });
   win.loadFile('./src/index.html');
 }
