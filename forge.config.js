@@ -4,13 +4,21 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: '/images/pdf'
+    icon: './images/pdf.ico'
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {       
+        name: 'pdf_editor',
+        authors: 'Deivid Iliev',
+        description: 'A PDF editor application',
+        setupIcon: './images/pdf.ico',
+        iconUrl: './images/pdf.ico', // Replace with your actual icon URL if needed
+        loadingGif: '', // Optional: Path to a loading GIF
+        icon: './images/pdf.ico'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
@@ -18,17 +26,17 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {icon: './images/pdf.ico'},
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {icon: './images/pdf.ico'},
     },
   ],
   plugins: [
     {
       name: '@electron-forge/plugin-auto-unpack-natives',
-      config: {},
+      config: {icon: './images/pdf.ico'},
     },
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application

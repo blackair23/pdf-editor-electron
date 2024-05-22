@@ -1,9 +1,11 @@
 const {PDFDocument} = require('pdf-lib')
+import { draggableGrid } from "../api/draggable.js";
+// import {  dragEnd, dragOver, dragStart } from "../api/draggable.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
 
-const mergeTemplate = (files) => html `
+const mergeTemplate = () => html `
 <section id="merge" class="max-w-full justify-center  justify-items-center place-content-center">
   <div class="place-content-center text-center mt-6 ">
     <h1 class="text-5xl font-bold">Merge PDF files</h1>
@@ -11,20 +13,23 @@ const mergeTemplate = (files) => html `
     <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
   </div>
 
-  <div id="card-holder" class="place-content-center  mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-center justify-items-center">  
+  <div id="card-holder" class="conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
+  <!-- <div id="card-holder" class="conteiner place-content-center  mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-center justify-items-center">   -->
+ 
   <!-- <div id="card-holder" class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center"> -->
       <p class="text-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
   <div class=" flex w-full justify-center">
-    <button @click=${handleMerge} class="btn btn-error">Merge</button>
+    <!-- <button @click=${handleMerge} class="btn btn-error">Merge</button> -->
+    <button  class="btn btn-error">Merge</button>
   </div>
 
 </section>`;
 
 
 const cardTemplate = (card) => html `
-    <div class="card w-32 bg-base-300 shadow-xl">
+    <div  class="focus:opacity-75 hover:cursor-move card w-32 bg-base-300 shadow-xl draggable" draggable="true">
       <figure class="px-3 pt-3">
         <!-- <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" /> -->
         <div class="skeleton w-32 h-32 bg-neutral">${card.index}</div>
@@ -40,9 +45,12 @@ const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
   const selectedFiles = await fileInput.files; // Get selected files
   console.log(selectedFiles);
-  if (!selectedFiles || selectedFiles.length <= 1) {
+  if (!selectedFiles || selectedFiles.length == 0) {
     alert('Please select two or more PDF files to merge.');
-    return;
+    document.getElementById('input-file').value = '';
+    // return;
+    fileInput.value= '';
+    selectedFiles ='';
   }
 
   const pdfPaths = [];
@@ -56,6 +64,8 @@ const handleFileSelection = async () => {
   cardHolder.innerHTML = '';
   render(pdfPaths.map(cardTemplate), cardHolder);
   console.log(pdfPaths)
+
+  draggableGrid();
 };
 
 const handleMerge = async () =>{
