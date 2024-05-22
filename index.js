@@ -36,6 +36,7 @@ function createWindow () {
       contextIsolation: false,
       nodeIntegration: true,
       // preload: path.join(__dirname, 'src','preload.js')
+      
     }
   });
   win.once('ready-to-show', () => {
@@ -49,6 +50,17 @@ function createWindow () {
 
 app.whenReady().then(createWindow);
 
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
 
 // -----------------------------------V2
 // const { app, BrowserWindow } = require('electron');

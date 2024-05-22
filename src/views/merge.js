@@ -1,6 +1,5 @@
 const {PDFDocument} = require('pdf-lib')
 import { draggableGrid } from "../api/draggable.js";
-// import {  dragEnd, dragOver, dragStart } from "../api/draggable.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -13,25 +12,20 @@ const mergeTemplate = () => html `
     <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
   </div>
 
-  <div id="card-holder" class="conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
-  <!-- <div id="card-holder" class="conteiner place-content-center  mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-center justify-items-center">   -->
- 
-  <!-- <div id="card-holder" class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center"> -->
+  <div id="card-holder" class="mt-16 conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
       <p class="text-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
   <div class=" flex w-full justify-center">
-    <!-- <button @click=${handleMerge} class="btn btn-error">Merge</button> -->
-    <button  class="btn btn-error">Merge</button>
+    <button @click=${handleMerge} class="btn btn-error">Merge</button>
   </div>
 
 </section>`;
 
 
 const cardTemplate = (card) => html `
-    <div  class="focus:opacity-75 hover:cursor-move card w-32 bg-base-300 shadow-xl draggable" draggable="true">
+    <div data-path=${card.path} data-name=${card.name} class="focus:opacity-75 hover:cursor-move card w-32 bg-base-300 shadow-xl draggable" draggable="true">
       <figure class="px-3 pt-3">
-        <!-- <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" /> -->
         <div class="skeleton w-32 h-32 bg-neutral">${card.index}</div>
         </figure>
         <div class="place-content-center justify-center card-body items-center text-center">
@@ -69,16 +63,17 @@ const handleFileSelection = async () => {
 };
 
 const handleMerge = async () =>{
-  const fileInput = document.getElementById('input-file');
-  const selectedFiles = await fileInput.files; // Get selected files
+  const allFilesByOrder = Array.from(document.querySelectorAll('.draggable'));
   const pdfPaths = [];
-  for (const file of selectedFiles) {
+
+  for (const file of allFilesByOrder) {
     pdfPaths.push({
-      path: file.path,
-      name: file.name,
+      path: file.getAttribute('data-path'),
+      name: file.getAttribute('data-name'),
     }); // Extract file paths
   };
 
+  console.log(pdfPaths);
   console.log('mergeee!')
 
     const mergedPdf = await PDFDocument.create();

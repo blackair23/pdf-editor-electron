@@ -1,9 +1,5 @@
 import { html } from "../lib.js";
 
-// import {mergePng} from '../../images/merge.png'
-// import {splitPng} from '../../images/file.png'
-// import {removePng} from '../../images/remove-file.png'
-const mergePng = '/images/merge.png';
 const homeTemplate = () => html `
 <section id="home" >
 <div class="hero min-h-max bg-base-200">
