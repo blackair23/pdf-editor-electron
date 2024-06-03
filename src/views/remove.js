@@ -12,7 +12,7 @@ const removeTemplate = () => html `
   <p class="py-6">Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
   <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" />
 </div>
-<div id="card-holder" class="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
+<div id="card-holder" class="mt-16 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
       <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
@@ -31,7 +31,7 @@ const handleFileSelection = async () => {
     alert('Please select file.');
     return;
   }
-
+  let fsFile = fs.readFileSync(selectedFiles[0].path);
   let currentFile = await PDFDocument.load(fs.readFileSync(selectedFiles[0].path));
   const pages = currentFile.getPages()
   console.log(pages);
@@ -40,7 +40,7 @@ const handleFileSelection = async () => {
   const cardHolder= document.getElementById('card-holder');
   cardHolder.innerHTML = '';
   render(pages.map((_, i) => cardTemplate(i)), cardHolder);
-  console.log(pages)
+  console.log(pages);
 };
 
 const cardTemplate = (index) => html `
@@ -108,10 +108,10 @@ const handlePageIndex = (index) => {
     btn.classList = 'btn btn-primary'
   }
   console.log(selectedCardIndices);
-  
-  
-
 };
+
+
+
 export function removeView(ctx) {
     ctx.render(removeTemplate());
 }

@@ -15,7 +15,7 @@ const splitTemplate = () => html `
 
 </div>
 <!-- <div id="card-holder" class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center"> -->
-  <div id="card-holder" class="mt-16 grid grid-cols-1 p-4 gap-4 justify-center justify-items-center">  
+  <div id="card-holder" class="mt-16 mb-2 grid grid-cols-1 p-4 gap-4 justify-center justify-items-center">  
     <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
@@ -31,7 +31,7 @@ const splitTemplate = () => html `
         </div>
       </div>
 
-      <div class="indicator">
+      <div class="indicator" class="mb-16">
         <button  @click=${handleSplit} class="btn btn-error join-item">Split</button>
       </div>
     </div>

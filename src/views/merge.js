@@ -12,7 +12,7 @@ const mergeTemplate = () => html `
     <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
   </div>
 
-  <div id="card-holder" class="mt-16 conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
+  <div id="card-holder" class="mt-16 mb-16 conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
       <p class="text-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 

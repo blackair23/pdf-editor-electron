@@ -36,7 +36,7 @@ function createWindow () {
       contextIsolation: false,
       nodeIntegration: true,
       // preload: path.join(__dirname, 'src','preload.js')
-      
+      webSecurity: false,
     }
   });
   win.once('ready-to-show', () => {
@@ -46,6 +46,7 @@ function createWindow () {
     win.webContents.openDevTools();
   });
   win.loadFile('./src/index.html');
+
 }
 
 app.whenReady().then(createWindow);
