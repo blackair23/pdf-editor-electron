@@ -1,4 +1,5 @@
 const {PDFDocument} = require('pdf-lib')
+import { saveFile } from "../api/save.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -85,10 +86,10 @@ const handleRemove = async () => {
       const copiedPages = await pageRemovedPdf.copyPages(pdfDoc, pagesToKeep);
       copiedPages.forEach((page) => pageRemovedPdf.addPage(page));
 
-      fs.writeFileSync(`D:/pdf-new/page-removed-${selectedFiles[0].name}.pdf`,await pageRemovedPdf.save());
-      alert('Ready!');
+      // fs.writeFileSync(`D:/pdf-new/page-removed-${selectedFiles[0].name}.pdf`,await pageRemovedPdf.save());
   
-      page.redirect('/');
+      const savingTheFile = await pageRemovedPdf.save();
+      saveFile(savingTheFile, 'pages-removed-', selectedFiles[0].name);
 
 }
 

@@ -1,5 +1,6 @@
 const {PDFDocument} = require('pdf-lib')
 import { draggableGrid } from "../api/draggable.js";
+import { saveFile } from "../api/save.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -84,14 +85,10 @@ const handleMerge = async () =>{
       const copiedPages = await mergedPdf.copyPages(currentFile, currentFile.getPageIndices());
       copiedPages.forEach((page) => mergedPdf.addPage(page));    
     }
-
-    fs.writeFileSync(`D:/pdf-new/merged-${pdfPaths[0].name}.pdf`,await mergedPdf.save());
-    alert('Ready!');
-
-    page.redirect('/');
-
+    const savingTheFile = await mergedPdf.save();
+    saveFile(savingTheFile, 'merged', pdfPaths[0].name);
+    
 }
-
 
 export function mergeView(ctx) {
     const files = [];

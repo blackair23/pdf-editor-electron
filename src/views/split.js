@@ -4,6 +4,7 @@ import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
 const selectedCardIndices = []; 
+
 const splitTemplate = () => html `
 
 <section id="split">
@@ -35,10 +36,21 @@ const splitTemplate = () => html `
         <button  @click=${handleSplit} class="btn btn-error join-item">Split</button>
       </div>
     </div>
+
+      <button @click=${handleClick}>Create Folder</button>
+
   </div>
 
 </section>
 `;
+
+
+
+
+const handleClick = () => {
+
+
+};
 
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
@@ -74,10 +86,24 @@ const cardTemplate = (card) => html `
     </div>
 `;
 
+
+
+const directoryPath = 'C:/split-pdf';
+
 const handleSplit = async () => {
   const splitOption = document.getElementById('split-option').value;
   const pageInput = document.getElementById('page-input').value;
   console.log('split-> ', splitOption,'\nbypages ->', pageInput);
+
+
+  
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath);
+    console.log('Directory created successfully!');
+  } else {
+    console.log('Directory already exists.');
+  }
+
 
   if (splitOption === 'exact') {
     const splitPage = parseInt(pageInput, 10);
@@ -126,7 +152,7 @@ const splitPdfIntoChunks = async (numPagesPerChunk) => {
       const chunkPdf = await PDFDocument.create();
       const pages = await chunkPdf.copyPages(pdfDoc, Array.from({ length: endPage - startPage }, (_, i) => i + startPage));
       pages.forEach((page) => chunkPdf.addPage(page));
-      fs.writeFileSync(`D:/pdf-new/split-P${chunkCount}-${file.name}.pdf`,await chunkPdf.save());
+      fs.writeFileSync(`${directoryPath}/split-P${chunkCount}-${file.name}.pdf`,await chunkPdf.save());
       
       
 
@@ -163,13 +189,13 @@ const splitPdfAtPage = async (splitPage) => {
   const firstPartPdf = await PDFDocument.create();
   const firstPartPages = await firstPartPdf.copyPages(pdfDoc, Array.from({ length: splitPage }, (_, i) => i));
   firstPartPages.forEach((page) => firstPartPdf.addPage(page));
-  fs.writeFileSync(`D:/pdf-new/split-P1-${selectedFiles[0].name}.pdf`,await firstPartPdf.save());
+  fs.writeFileSync(`${directoryPath}/split-P1-${selectedFiles[0].name}.pdf`,await firstPartPdf.save());
 
   // Second part
   const secondPartPdf = await PDFDocument.create();
   const secondPartPages = await secondPartPdf.copyPages(pdfDoc, Array.from({ length: totalPages - splitPage }, (_, i) => i + splitPage));
   secondPartPages.forEach((page) => secondPartPdf.addPage(page));
-  fs.writeFileSync(`D:/pdf-new/split-P2-${selectedFiles[0].name}.pdf`,await secondPartPdf.save());
+  fs.writeFileSync(`${directoryPath}/split-P2-${selectedFiles[0].name}.pdf`,await secondPartPdf.save());
    
    alert('PDF split into two parts!');
    page.redirect('/');

@@ -20,7 +20,7 @@
 
 
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 const path = require('path');
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS']=true;
@@ -47,6 +47,7 @@ function createWindow () {
   });
   win.loadFile('./src/index.html');
 
+
 }
 
 app.whenReady().then(createWindow);
@@ -63,6 +64,10 @@ app.on('activate', () => {
     }
 });
 
+
+// export {
+//   createFolder,
+// };
 // -----------------------------------V2
 // const { app, BrowserWindow } = require('electron');
 // const path = require('path');
