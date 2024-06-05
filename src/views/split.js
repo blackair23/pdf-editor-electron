@@ -1,5 +1,6 @@
 
 const {PDFDocument} = require('pdf-lib')
+import { alertPopup } from "../api/alerts.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -11,7 +12,7 @@ const splitTemplate = () => html `
 <div class="place-content-center text-center mt-6">
   <h1 class="text-5xl font-bold">Split PDF file</h1>
   <p class="py-6">Separate one page or a whole set for easy conversion into independent PDF files.</p>
-  <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" />
+  <input @change=${handleFileSelection} id="input-file" accept="application/pdf" type="file" class="file-input w-full max-w-xs file-input-primary" />
 
 
 </div>
@@ -37,8 +38,6 @@ const splitTemplate = () => html `
       </div>
     </div>
 
-      <button @click=${handleClick}>Create Folder</button>
-
   </div>
 
 </section>
@@ -47,17 +46,13 @@ const splitTemplate = () => html `
 
 
 
-const handleClick = () => {
-
-
-};
 
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
   const selectedFiles = await fileInput.files; // Get selected files
   console.log(selectedFiles);
   if (!selectedFiles || selectedFiles.length == 0) {
-    alert('Please select file to split.');
+    alertPopup('File not selected!','Please select file to split.', 'Close');
     return;
   }
 
@@ -108,7 +103,7 @@ const handleSplit = async () => {
   if (splitOption === 'exact') {
     const splitPage = parseInt(pageInput, 10);
       if (isNaN(splitPage) || splitPage < 1) {
-          alert('Please enter a valid page number.');
+          alertPopup('Wrong page number','Please enter a valid page number.', 'Close');
           document.getElementById('page-input').value = "";
           // return;
       }
@@ -116,14 +111,15 @@ const handleSplit = async () => {
   } else if (splitOption === 'every') {
       const numPagesPerChunk = parseInt(pageInput, 10);
       if (isNaN(numPagesPerChunk) || numPagesPerChunk < 1) {
-          alert('Please enter a valid number of pages.');
+          alertPopup('Wrong page number','Please enter a valid number of pages.', 'Close');
           document.getElementById('page-input').value = "";
           // return;
         
       }
       await splitPdfIntoChunks(numPagesPerChunk);
   } else {
-      alert('Please select a valid split option.');
+      alertPopup('Split option Error!','Please select a valid split option.', 'Close');
+      
   }
 
 }
@@ -135,7 +131,8 @@ const splitPdfIntoChunks = async (numPagesPerChunk) => {
   const selectedFiles = fileInput.files;
 
   if (selectedFiles.length === 0) {
-      alert('No file selected!');
+      alertPopup('No file selected!','Please select PDF file.', 'Close');
+
       return;
   }
 
@@ -160,7 +157,8 @@ const splitPdfIntoChunks = async (numPagesPerChunk) => {
       chunkCount++;
   }
 
-  alert('PDF split into chunks!');
+  alertPopup('PDF ready!','PDF split into chunks!', 'Close');
+
   page.redirect('/');
 };
 
@@ -171,7 +169,7 @@ const splitPdfAtPage = async (splitPage) => {
   const selectedFiles = fileInput.files;
 
   if (selectedFiles.length === 0) {
-      alert('No file selected!');
+      alertPopup('No file selected!','Please select PDF file.', 'Close');
       return;
   }
 
@@ -181,7 +179,7 @@ const splitPdfAtPage = async (splitPage) => {
   const totalPages = pdfDoc.getPageCount();
 
   if (splitPage < 1 || splitPage >= totalPages) {
-      alert('Invalid split page number!');
+      alertPopup('Invalid split page number!','Please select a valid page number.', 'Close');
       return;
   }
 
@@ -197,7 +195,8 @@ const splitPdfAtPage = async (splitPage) => {
   secondPartPages.forEach((page) => secondPartPdf.addPage(page));
   fs.writeFileSync(`${directoryPath}/split-P2-${selectedFiles[0].name}.pdf`,await secondPartPdf.save());
    
-   alert('PDF split into two parts!');
+  alertPopup('PDF ready!','PDF split into two parts!', 'Close');
+
    page.redirect('/');
 };
 

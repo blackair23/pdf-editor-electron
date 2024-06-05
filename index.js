@@ -43,7 +43,7 @@ function createWindow () {
     win.show();
     // Set the menu to null after the window is ready to show
     win.setMenu(null);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   });
   win.loadFile('./src/index.html');
 

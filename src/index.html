@@ -16,6 +16,7 @@
         <title>Work PDF!</title>
         <script type="module" src="./app.js"></script>
         <script type="module" src="./api/theme.js"></script>
+        <script type="module" src="./api/alerts.js"></script>
       </head>
       <body>
 
@@ -43,7 +44,17 @@
         </section>
           
         <main id="main">
-          
-      </main>
+            <dialog id="my_modal_1" class="modal">
+              <div class="modal-box">
+                <h3  id="popUpHeader" class="font-bold text-lg"></h3>
+                <p  id="popUpText" class="py-4"></p>
+                <div class="modal-action">
+                  <form method="dialog">
+                    <button id="popUpBtn" class="btn"></button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+        </main>
       </body>
 </html>

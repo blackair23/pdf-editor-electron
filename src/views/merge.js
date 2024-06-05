@@ -1,4 +1,5 @@
 const {PDFDocument} = require('pdf-lib')
+import { alertPopup } from "../api/alerts.js";
 import { draggableGrid } from "../api/draggable.js";
 import { saveFile } from "../api/save.js";
 import { html, page, render } from "../lib.js";
@@ -10,7 +11,7 @@ const mergeTemplate = () => html `
   <div class="place-content-center text-center mt-6 ">
     <h1 class="text-5xl font-bold">Merge PDF files</h1>
     <p class="py-6">Combine PDFs in the order you want with the easiest PDF merger available.</p>
-    <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
+    <input @change=${handleFileSelection} id="input-file" type="file" accept="application/pdf" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
   </div>
 
   <div id="card-holder" class="mt-16 mb-16 conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
@@ -35,13 +36,12 @@ const cardTemplate = (card) => html `
     </div>
 `;
 
-
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
-  const selectedFiles = await fileInput.files; // Get selected files
+  let selectedFiles = await fileInput.files; // Get selected files
   console.log(selectedFiles);
-  if (!selectedFiles || selectedFiles.length == 0) {
-    alert('Please select two or more PDF files to merge.');
+  if (!selectedFiles || selectedFiles.length == 1) {
+    alertPopup('Select more files!', 'Please select two or more PDF files to merge.', 'Close')
     document.getElementById('input-file').value = '';
     // return;
     fileInput.value= '';
@@ -55,10 +55,12 @@ const handleFileSelection = async () => {
       name: file.name,
     }); // Extract file paths
   };
+  document.getElementById('card-holder').innerHTML = '';
   const cardHolder= document.getElementById('card-holder');
-  cardHolder.innerHTML = '';
-  render(pdfPaths.map(cardTemplate), cardHolder);
-  console.log(pdfPaths)
+  console.log(`--------------${pdfPaths}----------------------------------------`)
+  console.log('this shiws',pdfPaths)
+
+  render(pdfPaths.map(cardTemplate), document.getElementById('card-holder'));
 
   draggableGrid();
 };

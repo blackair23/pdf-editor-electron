@@ -11,7 +11,7 @@ const removeTemplate = () => html `
 <div class="place-content-center text-center mt-6">
   <h1 class="text-5xl font-bold">Remove PDF pages</h1>
   <p class="py-6">Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
-  <input @change=${handleFileSelection} id="input-file" type="file" class="file-input w-full max-w-xs file-input-primary" />
+  <input @change=${handleFileSelection} id="input-file" type="file" accept="application/pdf" class="file-input w-full max-w-xs file-input-primary" />
 </div>
 <div id="card-holder" class="mt-16 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
       <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
@@ -29,7 +29,7 @@ const handleFileSelection = async () => {
   const selectedFiles = await fileInput.files; // Get selected files
   console.log(selectedFiles[0]);
   if (!selectedFiles || selectedFiles.length == 0) {
-    alert('Please select file.');
+    alertPopup('No file selected', 'Please select file.', 'Close')
     return;
   }
   let fsFile = fs.readFileSync(selectedFiles[0].path);
