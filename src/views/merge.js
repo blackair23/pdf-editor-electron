@@ -2,6 +2,7 @@ const {PDFDocument} = require('pdf-lib')
 import { alertPopup } from "../api/alerts.js";
 import { draggableGrid } from "../api/draggable.js";
 import { saveFile } from "../api/save.js";
+import { shortenFileName } from "../api/shortenString.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -14,8 +15,10 @@ const mergeTemplate = () => html `
     <input @change=${handleFileSelection} id="input-file" type="file" accept="application/pdf" class="file-input w-full max-w-xs file-input-primary" multiple="multiple" />
   </div>
 
+  <div id="card-holder2" class="mt-16 mb-16 justify-center justify-items-center">  
+    <p class="text-center text-center m-0 p-1.5">No files uploaded!</p>
+  </div>
   <div id="card-holder" class="mt-16 mb-16 conteiner place-content-center  grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 md:p-2 xl:p-5 justify-center justify-items-center">  
-      <p class="text-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
   <div class=" flex w-full justify-center">
@@ -31,7 +34,7 @@ const cardTemplate = (card) => html `
         <div class="skeleton w-32 h-32 bg-neutral">${card.index}</div>
         </figure>
         <div class="place-content-center justify-center card-body items-center text-center">
-          <p class="text-xs">${card.name}</p>
+          <p class="text-xs w-max">${card.name}</p>
         </div>
     </div>
 `;
@@ -39,7 +42,6 @@ const cardTemplate = (card) => html `
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
   let selectedFiles = await fileInput.files; // Get selected files
-  console.log(selectedFiles);
   if (!selectedFiles || selectedFiles.length == 1) {
     alertPopup('Select more files!', 'Please select two or more PDF files to merge.', 'Close')
     document.getElementById('input-file').value = '';
@@ -52,13 +54,13 @@ const handleFileSelection = async () => {
   for (const file of selectedFiles) {
     pdfPaths.push({
       path: file.path,
-      name: file.name,
+      name: shortenFileName(file.name),
     }); // Extract file paths
   };
-  document.getElementById('card-holder').innerHTML = '';
-  const cardHolder= document.getElementById('card-holder');
-  console.log(`--------------${pdfPaths}----------------------------------------`)
-  console.log('this shiws',pdfPaths)
+  const cardHolder= document.getElementById('card-holder2');
+  
+  cardHolder.innerHTML = '';
+
 
   render(pdfPaths.map(cardTemplate), document.getElementById('card-holder'));
 
@@ -68,7 +70,6 @@ const handleFileSelection = async () => {
 const handleMerge = async () =>{
   const allFilesByOrder = Array.from(document.querySelectorAll('.draggable'));
   const pdfPaths = [];
-
   for (const file of allFilesByOrder) {
     pdfPaths.push({
       path: file.getAttribute('data-path'),
@@ -76,8 +77,6 @@ const handleMerge = async () =>{
     }); // Extract file paths
   };
 
-  console.log(pdfPaths);
-  console.log('mergeee!')
 
     const mergedPdf = await PDFDocument.create();
 
@@ -92,7 +91,9 @@ const handleMerge = async () =>{
     
 }
 
+
 export function mergeView(ctx) {
     const files = [];
     ctx.render(mergeTemplate(files));
 }
+

@@ -1,6 +1,8 @@
 
 const {PDFDocument} = require('pdf-lib')
+const { exec } = require('child_process');
 import { alertPopup } from "../api/alerts.js";
+import { shortenFileName } from "../api/shortenString.js";
 import { html, page, render } from "../lib.js";
 const fs = require('fs');
 
@@ -16,9 +18,10 @@ const splitTemplate = () => html `
 
 
 </div>
-<!-- <div id="card-holder" class="flex m-5 grid grid grid-cols-1 gap-4 grid-flow-row auto-rows-max w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center justify-center"> -->
+<div id="card-holder2" class="mt-16 mb-16 justify-between justify-items-center">
+      <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
+  </div>
   <div id="card-holder" class="mt-16 mb-2 grid grid-cols-1 p-4 gap-4 justify-center justify-items-center">  
-    <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
 
   <div class=" flex w-full justify-center">
@@ -50,7 +53,6 @@ const splitTemplate = () => html `
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
   const selectedFiles = await fileInput.files; // Get selected files
-  console.log(selectedFiles);
   if (!selectedFiles || selectedFiles.length == 0) {
     alertPopup('File not selected!','Please select file to split.', 'Close');
     return;
@@ -60,23 +62,22 @@ const handleFileSelection = async () => {
   for (const file of selectedFiles) {
     pdfPaths.push({
       path: file.path,
-      name: file.name,
+      name: shortenFileName(file.name),
     }); // Extract file paths
   };
   const cardHolder= document.getElementById('card-holder');
-  cardHolder.innerHTML = '';
+  document.getElementById('card-holder2').innerHTML = '';
+  document.getElementById('card-holder2').classList.remove('mt-16', 'mb-16')
   render(pdfPaths.map(cardTemplate), cardHolder);
-  console.log(pdfPaths)
 };
 
 const cardTemplate = (card) => html `
     <div class="card w-32 bg-base-300 shadow-xl">
       <figure class="px-3 pt-3">
-        <!-- <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" /> -->
         <div class="skeleton w-32 h-32 bg-neutral"></div>
         </figure>
         <div class="place-content-center justify-center card-body items-center text-center">
-          <p class="text-xs">${card.name}</p>
+          <p class="text-xs w-max">${card.name}</p>
         </div>
     </div>
 `;
@@ -84,6 +85,7 @@ const cardTemplate = (card) => html `
 
 
 const directoryPath = 'C:/split-pdf';
+const directoryPathForOpen = 'C:\split-pdf';
 
 const handleSplit = async () => {
   const splitOption = document.getElementById('split-option').value;
@@ -121,6 +123,12 @@ const handleSplit = async () => {
       alertPopup('Split option Error!','Please select a valid split option.', 'Close');
       
   }
+
+  exec("explorer.exe C:\\split-pdf", (err) => {
+    if (err) {
+      console.error('Failed to open folder:', err);
+    }
+  });
 
 }
 const splitPdfIntoChunks = async (numPagesPerChunk) => {

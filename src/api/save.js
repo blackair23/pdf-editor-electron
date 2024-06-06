@@ -7,7 +7,6 @@ const saveFile = (content, action, fileName) => {
     element.download = `${action}-${fileName}`;
     element.click();
     console.log(element);
-    alert('File saved!');
     page.redirect('/');
 }
 

@@ -13,9 +13,12 @@ const removeTemplate = () => html `
   <p class="py-6">Select and remove the PDF pages you don’t need. Get a new file without your deleted pages.</p>
   <input @change=${handleFileSelection} id="input-file" type="file" accept="application/pdf" class="file-input w-full max-w-xs file-input-primary" />
 </div>
-<div id="card-holder" class="mt-16 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
+<div id="card-holder2" class="mt-16 mb-16 justify-between justify-items-center">
       <p class="items-center text-center m-0 p-1.5">No files uploaded!</p>
   </div>
+<div id="card-holder" class="mt-16 mb-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4 justify-between justify-items-center">
+  </div>
+
 
   <div class=" flex w-full justify-center">
     <button @click=${handleRemove} class="btn btn-error">Remove</button>
@@ -27,7 +30,6 @@ const removeTemplate = () => html `
 const handleFileSelection = async () => {
   const fileInput = document.getElementById('input-file');
   const selectedFiles = await fileInput.files; // Get selected files
-  console.log(selectedFiles[0]);
   if (!selectedFiles || selectedFiles.length == 0) {
     alertPopup('No file selected', 'Please select file.', 'Close')
     return;
@@ -35,13 +37,11 @@ const handleFileSelection = async () => {
   let fsFile = fs.readFileSync(selectedFiles[0].path);
   let currentFile = await PDFDocument.load(fs.readFileSync(selectedFiles[0].path));
   const pages = currentFile.getPages()
-  console.log(pages);
-  console.log(pages.length);
 
   const cardHolder= document.getElementById('card-holder');
-  cardHolder.innerHTML = '';
+  document.getElementById('card-holder2').innerHTML = '';
+  document.getElementById('card-holder2').classList.remove('mt-16', 'mb-16');
   render(pages.map((_, i) => cardTemplate(i)), cardHolder);
-  console.log(pages);
 };
 
 const cardTemplate = (index) => html `
@@ -49,7 +49,7 @@ const cardTemplate = (index) => html `
       <figure class="px-5 pt-5">
         <!-- <img src="../images/pdf.png" alt="Shoes" class="rounded-xl" /> -->
           <div class="card-body items-center text-center">
-            <p class="text-sm">${index+1}</p>
+            <p class="text-sm w-max">${index+1}</p>
         </div>
       </figure>
       <button id=${index} @click=${() => handlePageIndex(index)} class="btn btn-primary ${selectedCardIndices.includes(index) ? 'btn-outline' : ''}"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
@@ -97,7 +97,6 @@ const handlePageIndex = (index) => {
 
   const btn = document.getElementById(index);
 
-  console.log('from function i-> ',index)
   const cardIndex = selectedCardIndices.indexOf(index); // Check if index already exists
   if (cardIndex === -1) {
     // Add index if not already selected
@@ -108,7 +107,6 @@ const handlePageIndex = (index) => {
     selectedCardIndices.splice(cardIndex, 1);
     btn.classList = 'btn btn-primary'
   }
-  console.log(selectedCardIndices);
 };
 
 
