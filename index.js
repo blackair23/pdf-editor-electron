@@ -20,7 +20,7 @@ function createWindow() {
   win.once('ready-to-show', () => {
     win.show();
     win.setMenu(null);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   });
   win.loadFile(path.join(__dirname, 'src', 'index.html'));
 

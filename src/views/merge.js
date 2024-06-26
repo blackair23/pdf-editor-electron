@@ -34,7 +34,7 @@ const cardTemplate = (card) => html `
         <div class="skeleton w-32 h-32 bg-neutral">${card.index}</div>
         </figure>
         <div class="place-content-center justify-center card-body items-center text-center">
-          <p class="text-xs w-max">${card.name}</p>
+          <p class="text-xs w-max">${card.sortName}</p>
         </div>
     </div>
 `;
@@ -54,7 +54,8 @@ const handleFileSelection = async () => {
   for (const file of selectedFiles) {
     pdfPaths.push({
       path: file.path,
-      name: shortenFileName(file.name),
+      sortName: shortenFileName(file.name),
+      name: file.name,
     }); // Extract file paths
   };
   const cardHolder= document.getElementById('card-holder2');
