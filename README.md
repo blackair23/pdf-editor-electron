@@ -8,6 +8,8 @@ A simple PDF editor built with JavaScript, Electron, Lit-HTML, Page.js, and PDF-
 - **Merge PDF**: Combine multiple PDF files into one. Includes drag-and-drop sorting of files.
 - **Delete Pages**: Remove specific pages from a PDF.
 
+![image](https://github.com/blackair23/pdf-editor-electron/assets/95815081/85ab4bf6-2d21-47b8-960b-478a9e6ee041)
+
 ## Technologies Used
 
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -15,7 +17,9 @@ A simple PDF editor built with JavaScript, Electron, Lit-HTML, Page.js, and PDF-
 - [Lit-HTML](https://lit.dev/)
 - [Page.js](https://visionmedia.github.io/page.js/)
 - [PDF-Lib](https://pdf-lib.js.org/)
+- [daisyUI](https://daisyui.com/)
 
+  
 ### Installation
 
 1. **Clone the repository:**
@@ -45,7 +49,7 @@ A simple PDF editor built with JavaScript, Electron, Lit-HTML, Page.js, and PDF-
 
 **Pack the application**
 
-    `npm run make` 
+    npm run make
 
 This will use Electron Forge to package the app into the out folder.
 
